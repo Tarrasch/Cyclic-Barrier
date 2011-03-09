@@ -30,14 +30,16 @@ public class Balls {
 	
 	Thread.currentThread().setName("MyMainThread");
 
-	nap((int)(5000*Math.random()));
-	new Ball(world, 50, 80, 5, 10, Color.red).start();
-	nap((int)(5000*Math.random()));
-	new Ball(world, 70, 100, 8, 6, Color.blue).start();
-	nap((int)(5000*Math.random()));
-	new Ball(world, 150, 100, 9, 7, Color.green).start();
-	nap((int)(5000*Math.random()));
-	new Ball(world, 200, 130, 3, 8, Color.black).start();
-	nap((int)(5000*Math.random()));
+        CyclicBarrier barrier =  new CyclicBarrier(4);
+
+	nap((int)(50*Math.random()));
+	new Ball(world, 50, 80, 5, 10, Color.red, barrier).start();
+	nap((int)(50*Math.random()));
+	new Ball(world, 70, 100, 8, 6, Color.blue, barrier).start();
+	nap((int)(50*Math.random()));
+	new Ball(world, 150, 100, 9, 7, Color.green, barrier).start();
+	nap((int)(50*Math.random()));
+	new Ball(world, 200, 130, 3, 8, Color.black, barrier).start();
+	nap((int)(50*Math.random()));
     }
 }

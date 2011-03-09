@@ -3,6 +3,7 @@ import java.awt.*;
 public class Ball extends Thread {
 
     BallWorld world;
+    CyclicBarrier cb;
     
     private int xpos, ypos, xinc, yinc;
 
@@ -12,7 +13,7 @@ public class Ball extends Thread {
     private final static int ballh = 10;
     
     public Ball(BallWorld world, int xpos, int ypos, 
-		int xinc, int yinc, Color col) {
+		int xinc, int yinc, Color col, CyclicBarrier cb) {
 	//
 	// Assign a name to this thread for easier debugging
 	//
@@ -22,10 +23,12 @@ public class Ball extends Thread {
       	this.xpos = xpos; this.ypos = ypos;
 	this.xinc = xinc; this.yinc = yinc;
         this.col = col;
+        this.cb = cb;
 
         world.addBall(this);
     }
     
+    @Override
     public void run() {
 	while (true)
 	    move();
@@ -35,6 +38,10 @@ public class Ball extends Thread {
 	if (xpos >= world.getWidth() - ballw || xpos <= 0 ) xinc = -xinc;
 	
 	if (ypos >= world.getHeight() - ballh || ypos <= 0 ) yinc = -yinc;
+
+        if(xpos == ypos){
+            cb.await();
+        }
 
 	Balls.nap(30);
 	doMove();
